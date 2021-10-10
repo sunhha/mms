@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunh.mms.dao.ItemOptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sunh.mms.entity.ItemOpt">
+        <id column="id" property="id" />
+        <result column="item_id" property="itemId" />
+        <result column="type" property="type" />
+        <result column="num" property="num" />
+        <result column="opt_time" property="optTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, item_id, type, num, opt_time, remark
+    </sql>
+    <select id="optRecord" resultType="java.util.Map">
+
+        select i.name as name,io.num as num,io.type as type,io.opt_time as optTime,io.remark as remark
+        from item_opt io
+        join item i on i.id = io.item_id
+        <where>
+            <if test="name != null and name != ''">
+                i.name like CONCAT('%',#{name},'%')
+            </if>
+        </where>
+        order by opt_time desc
+
+    </select>
+
+</mapper>
